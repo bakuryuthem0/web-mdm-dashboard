@@ -35,6 +35,7 @@ import I18n from 'shared/i18n'
 import createFieldList from '../../actions/createFieldList'
 import Criteria from './Criteria'
 import MetaCriteria from './MetaCriteria'
+import Group from './Group'
 
 /**
  * Component to select a item type
@@ -162,11 +163,11 @@ class QueryBuilder extends PureComponent {
           >
             +
             {' '}
-            {I18n.t('search_engine.intersection')}
+            {I18n.t('search_engine.global_rule')}
           </button>
         </div>
 
-        <Criteria
+        {/* <Criteria
           rules={this.state.criteria}
           changeRule={this.changeRule}
           fieldList={this.state.fieldList}
@@ -175,6 +176,15 @@ class QueryBuilder extends PureComponent {
         <MetaCriteria
           rules={this.state.metaCriteria}
           changeRule={this.changeRule}
+        /> */}
+
+        <Group
+          rules={[
+            { criteria: this.state.criteria },
+            { metaCriteria: this.state.metaCriteria },
+          ]}
+          changeRule={this.changeRule}
+          fieldList={this.state.fieldList}
         />
       </div>
     )

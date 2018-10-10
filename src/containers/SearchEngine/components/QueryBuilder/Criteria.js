@@ -33,7 +33,6 @@ import PropTypes from 'prop-types'
 import I18n from 'shared/i18n'
 import Rule from './Rule'
 
-
 class Criteria extends PureComponent {
   render() {
     return (
@@ -59,6 +58,16 @@ class Criteria extends PureComponent {
             />
           ))
         }
+
+        <button
+          className="btn btn--secondary"
+          type="button"
+          onClick={this.addMetaCriteria}
+        >
+          +
+          {' '}
+          {I18n.t('search_engine.group')}
+        </button>
       </div>
     )
   }

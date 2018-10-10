@@ -30,42 +30,45 @@ import React, {
   PureComponent,
 } from 'react'
 import PropTypes from 'prop-types'
-import I18n from 'shared/i18n'
 import Rule from './Rule'
 
+class Group extends PureComponent {
+  getRules(rules) {
+    console.log('getRules-------------')
+    console.log(rules)
+    console.log(this.state)
+    console.log('-------------')
 
-class MetaCriteria extends PureComponent {
+    const x = []
+    rules.forEach((element, index) => {
+      if (element.criteria || element.metacriteria) {
+        x.push(<Group rules={element} />)
+      } else {
+        x.push(
+          <Rule
+            key={`criteria-${index.toString()}`}
+            id={index}
+            type="criteria"
+            changeRule={this.props.changeRule}
+            fieldList={this.props.fieldList}
+            {...element}
+          />,
+        )
+      }
+    })
+
+    return x
+  }
+
   render() {
-    return (
-      <div>
-        {
-          this.props.rules.length > 0
-          && (
-            <h3>
-              {I18n.t('search_engine.global_rules')}
-            </h3>
-          )
-        }
-
-        {
-          this.props.rules.map((rule, index) => (
-            <Rule
-              key={`metaCriteria-${index.toString()}`}
-              id={index}
-              type="metaCriteria"
-              changeRule={this.props.changeRule}
-              {...rule}
-            />
-          ))
-        }
-      </div>
-    )
+    return this.getRules(this.props.rules)
   }
 }
 
-MetaCriteria.propTypes = {
+Group.propTypes = {
   rules: PropTypes.array.isRequired,
   changeRule: PropTypes.func.isRequired,
+  fieldList: PropTypes.array.isRequired,
 }
 
-export default MetaCriteria
+export default Group
