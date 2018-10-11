@@ -50,9 +50,9 @@ class MetaCriteria extends PureComponent {
         {
           this.props.rules.map((rule, index) => (
             <Rule
-              key={`metaCriteria-${index.toString()}`}
+              key={`metacriteria-${index.toString()}`}
               id={index}
-              type="metaCriteria"
+              type="metacriteria"
               changeRule={this.props.changeRule}
               {...rule}
             />

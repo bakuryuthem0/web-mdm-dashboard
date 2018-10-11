@@ -30,43 +30,93 @@ import React, {
   PureComponent,
 } from 'react'
 import PropTypes from 'prop-types'
+import I18n from 'shared/i18n'
 import Rule from './Rule'
 
 class Group extends PureComponent {
   getRules(rules) {
-    console.log('getRules-------------')
-    console.log(rules)
-    console.log(this.state)
-    console.log('-------------')
-
-    const x = []
-    rules.forEach((element, index) => {
-      if (element.criteria || element.metacriteria) {
-        x.push(<Group rules={element} />)
+    const render = []
+    rules.forEach((rule, index) => {
+      if (!rule.criteria && !rule.metacriteria) {
+        if (!rule.itemtype) {
+          render.push(this.selectRule('criteria', rule, index))
+        } else {
+          render.push(this.selectRule('metacriteria', rule, index))
+        }
       } else {
-        x.push(
-          <Rule
-            key={`criteria-${index.toString()}`}
-            id={index}
-            type="criteria"
+        console.log(rule)
+        render.push(
+          <Group
+            key={`group-${index.toString()}`}
+            criteria={rule.criteria}
+            metacriteria={rule.metacriteria}
             changeRule={this.props.changeRule}
             fieldList={this.props.fieldList}
-            {...element}
           />,
         )
       }
     })
 
-    return x
+    return render
+  }
+
+  selectRule(type, rule, index) {
+    if (type === 'criteria') {
+      return (
+        <Rule
+          key={`criteria-${index.toString()}`}
+          id={index}
+          type="criteria"
+          changeRule={this.props.changeRule}
+          fieldList={this.props.fieldList}
+          {...rule}
+        />
+      )
+    }
+
+    return (
+      <Rule
+        key={`metacriteria-${index.toString()}`}
+        id={index}
+        type="metacriteria"
+        changeRule={this.props.changeRule}
+        {...rule}
+      />
+    )
   }
 
   render() {
-    return this.getRules(this.props.rules)
+    return (
+      <>
+        <div className="search-engine__group">
+          {this.getRules(this.props.criteria)}
+          <button
+            className="btn btn--primary"
+            type="button"
+            onClick={() => console.log('test')}
+          >
+            +
+            {' '}
+            {I18n.t('search_engine.group')}
+          </button>
+        </div>
+
+        <div className="search-engine__group">
+          {this.getRules(this.props.metacriteria)}
+        </div>
+      </>
+    )
   }
 }
 
+Group.defaultProps = {
+  criteria: [],
+  metacriteria: [],
+}
+
 Group.propTypes = {
-  rules: PropTypes.array.isRequired,
+  criteria: PropTypes.array,
+  metacriteria: PropTypes.array,
   changeRule: PropTypes.func.isRequired,
   fieldList: PropTypes.array.isRequired,
 }

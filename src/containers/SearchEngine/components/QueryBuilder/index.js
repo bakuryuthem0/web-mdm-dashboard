@@ -33,8 +33,8 @@ import PropTypes from 'prop-types'
 import itemtype from 'shared/itemtype'
 import I18n from 'shared/i18n'
 import createFieldList from '../../actions/createFieldList'
-import Criteria from './Criteria'
-import MetaCriteria from './MetaCriteria'
+// import Criteria from './Criteria'
+// import MetaCriteria from './MetaCriteria'
 import Group from './Group'
 
 /**
@@ -49,7 +49,7 @@ class QueryBuilder extends PureComponent {
 
     this.state = {
       criteria: [],
-      metaCriteria: [],
+      metacriteria: [],
       fieldList: createFieldList(props.listSearchOptions),
     }
   }
@@ -70,7 +70,7 @@ class QueryBuilder extends PureComponent {
     this.props.changeQuery({
       itemtype: this.props.itemtype,
       criteria: this.state.criteria,
-      metacriteria: this.state.metaCriteria,
+      metacriteria: this.state.metacriteria,
     })
   }
 
@@ -99,10 +99,10 @@ class QueryBuilder extends PureComponent {
    * @function addMetaCriteria
    */
   addMetaCriteria = () => {
-    const { metaCriteria: currentCriteria } = this.state
+    const { metacriteria: currentCriteria } = this.state
 
     this.setState({
-      metaCriteria: [
+      metacriteria: [
         ...currentCriteria,
         {
           link: 'AND',
@@ -174,15 +174,13 @@ class QueryBuilder extends PureComponent {
         />
 
         <MetaCriteria
-          rules={this.state.metaCriteria}
+          rules={this.state.metacriteria}
           changeRule={this.changeRule}
         /> */}
 
         <Group
-          rules={[
-            { criteria: this.state.criteria },
-            { metaCriteria: this.state.metaCriteria },
-          ]}
+          criteria={this.state.criteria}
+          metacriteria={this.state.metacriteria}
           changeRule={this.changeRule}
           fieldList={this.state.fieldList}
         />

@@ -58,16 +58,6 @@ class Criteria extends PureComponent {
             />
           ))
         }
-
-        <button
-          className="btn btn--secondary"
-          type="button"
-          onClick={this.addMetaCriteria}
-        >
-          +
-          {' '}
-          {I18n.t('search_engine.group')}
-        </button>
       </div>
     )
   }
